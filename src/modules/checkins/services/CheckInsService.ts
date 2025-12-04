@@ -25,6 +25,14 @@ export class CheckInsService {
 
     return response.data;
   }
+
+  async delete(checkInId: string): Promise<void> {
+    const response = await checkinsApi.delete(checkInId);
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+  }
 }
 
 export const checkinsService = new CheckInsService();

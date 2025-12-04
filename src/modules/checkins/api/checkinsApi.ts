@@ -13,5 +13,9 @@ export const checkinsApi = {
   create: async (input: CreateCheckInInput) => {
     return apiClient.post<CheckIn>('/checkins', input);
   },
+
+  delete: async (checkInId: string) => {
+    return apiClient.delete(`/checkins/${checkInId}`);
+  },
 };
 

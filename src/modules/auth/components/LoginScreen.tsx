@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
+import { colors } from '../../../shared/constants/colors';
 
 export const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -63,7 +64,7 @@ export const LoginScreen: React.FC = () => {
           disabled={isLoading}
         >
           {isLoading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color={colors.background} />
           ) : (
             <Text style={styles.buttonText}>Entrar</Text>
           )}
@@ -76,20 +77,20 @@ export const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background,
     padding: 24,
     justifyContent: 'center',
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#111827',
+    color: colors.textPrimary,
     textAlign: 'center',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#6b7280',
+    color: colors.textSecondary,
     textAlign: 'center',
     marginBottom: 32,
   },
@@ -97,17 +98,17 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   input: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.border,
     borderRadius: 8,
     padding: 16,
     fontSize: 16,
     marginBottom: 16,
-    color: '#111827',
+    color: colors.textPrimary,
   },
   button: {
-    backgroundColor: '#111827',
+    backgroundColor: colors.accent,
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   buttonText: {
-    color: '#ffffff',
+    color: colors.background,
     fontSize: 16,
     fontWeight: '600',
   },

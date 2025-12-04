@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useAuth, LoginScreen } from '../../src/modules/auth';
-import { HomeScreen } from './screens/HomeScreen';
+import { PatientHomeScreen } from '../../src/modules/home/components/PatientHomeScreen';
 import { CheckInsScreen } from '../../src/modules/checkins/components/CheckInsScreen';
 import { ExercisesScreen } from '../../src/modules/exercises/components/ExercisesScreen';
 import { TrainingScreen } from '../../src/modules/training/components/TrainingScreen';
+import { SupplementsScreen } from '../../src/modules/supplements';
+import { RecoveryScreen } from '../../src/modules/recovery';
+import { DietScreen } from '../../src/modules/nutrition';
+import { ActivityScreen } from '../../src/modules/activity';
+import { ChangePasswordScreen } from '../../src/modules/change-password';
+import { colors } from '../../src/shared/constants/colors';
 
-export type Screen = 'Login' | 'Home' | 'CheckIns' | 'Exercises' | 'Training';
+export type Screen =
+  | 'Login'
+  | 'Home'
+  | 'CheckIns'
+  | 'Exercises'
+  | 'Training'
+  | 'Diet'
+  | 'Supplements'
+  | 'Activity'
+  | 'Recovery'
+  | 'ChangePassword';
 
 export const AppNavigator: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -24,7 +40,6 @@ export const AppNavigator: React.FC = () => {
     return <LoginScreen />;
   }
 
-  // Navegação simples baseada em estado
   switch (currentScreen) {
     case 'CheckIns':
       return <CheckInsScreen onBack={() => setCurrentScreen('Home')} />;
@@ -32,10 +47,20 @@ export const AppNavigator: React.FC = () => {
       return <ExercisesScreen onBack={() => setCurrentScreen('Home')} />;
     case 'Training':
       return <TrainingScreen onBack={() => setCurrentScreen('Home')} />;
+    case 'Supplements':
+      return <SupplementsScreen onBack={() => setCurrentScreen('Home')} />;
+    case 'Recovery':
+      return <RecoveryScreen onBack={() => setCurrentScreen('Home')} />;
+    case 'Diet':
+      return <DietScreen onBack={() => setCurrentScreen('Home')} />;
+    case 'Activity':
+      return <ActivityScreen onBack={() => setCurrentScreen('Home')} />;
+    case 'ChangePassword':
+      return <ChangePasswordScreen onBack={() => setCurrentScreen('Home')} />;
     case 'Home':
     default:
       return (
-        <HomeScreen
+        <PatientHomeScreen
           onNavigate={(screen: Screen) => setCurrentScreen(screen)}
         />
       );
@@ -47,6 +72,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background,
   },
 });

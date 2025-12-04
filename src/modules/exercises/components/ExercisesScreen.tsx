@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { exercisesService } from '../services/ExercisesService';
 import { Exercise } from '../types';
+import { colors } from '../../../shared/constants/colors';
 
 interface ExercisesScreenProps {
   onBack: () => void;
@@ -63,7 +64,7 @@ export const ExercisesScreen: React.FC<ExercisesScreenProps> = ({ onBack }) => {
       />
       {isLoading ? (
         <View style={styles.centerContainer}>
-          <ActivityIndicator size="large" color="#111827" />
+          <ActivityIndicator size="large" color={colors.accent} />
         </View>
       ) : (
         <FlatList
@@ -96,7 +97,7 @@ export const ExercisesScreen: React.FC<ExercisesScreenProps> = ({ onBack }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background,
     padding: 16,
   },
   centerContainer: {
@@ -112,42 +113,42 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     fontSize: 16,
-    color: '#111827',
+    color: colors.accent,
     fontWeight: '600',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#111827',
+    color: colors.textPrimary,
     marginBottom: 16,
   },
   searchInput: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
     marginBottom: 16,
-    color: '#111827',
+    color: colors.textPrimary,
   },
   card: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.border,
   },
   exerciseName: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#111827',
+    color: colors.textPrimary,
     marginBottom: 8,
   },
   text: {
     fontSize: 14,
-    color: '#6b7280',
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   emptyContainer: {
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: '#9ca3af',
+    color: colors.textMuted,
   },
 });
 

@@ -1,3 +1,10 @@
+export interface CheckInPhoto {
+  id: string;
+  url: string;
+  thumbnailUrl: string | null;
+  capturedAt: string | null;
+}
+
 export interface CheckIn {
   id: string;
   date: string;
@@ -8,7 +15,7 @@ export interface CheckIn {
   trainingAdherence: number | null;
   sleepQuality: number | null;
   stressLevel: number | null;
-  mood: string | null;
+  mood: number | null;
   notes: string | null;
   trainingSessionId: string | null;
   trainingSession: {
@@ -16,16 +23,13 @@ export interface CheckIn {
     workoutName: string;
     date: string;
   } | null;
-  photos: Array<{
-    id: string;
-    url: string;
-    thumbnailUrl: string;
-  }>;
+  photos: CheckInPhoto[];
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateCheckInInput {
-  date?: string;
+  date: string;
   weightKg?: number | null;
   bodyFatPct?: number | null;
   energyLevel?: number | null;
@@ -33,9 +37,11 @@ export interface CreateCheckInInput {
   trainingAdherence?: number | null;
   sleepQuality?: number | null;
   stressLevel?: number | null;
-  mood?: string | null;
+  mood?: number | null;
   notes?: string | null;
   trainingSessionId?: string | null;
+  stepsActual?: number | null;
+  cardioActualMinutes?: number | null;
   photoIds?: string[];
 }
 

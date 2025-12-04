@@ -11,6 +11,8 @@ import {
 import { useAuth } from '../../auth';
 import { checkinsService } from '../../checkins';
 import { trainingService } from '../../training';
+import { colors } from '../../../shared/constants/colors';
+import type { Screen } from '../../../../app/navigation/AppNavigator';
 
 interface HomeScreenProps {
   onNavigate: (screen: Screen) => void;
@@ -82,7 +84,7 @@ export const PatientHomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => 
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#111827" />
+        <ActivityIndicator size="large" color={colors.accent} />
       </View>
     );
   }
@@ -91,13 +93,13 @@ export const PatientHomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => 
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Bem-vindo(a)</Text>
-        {user && <Text style={styles.subtitle}>{user.name}</Text>}
+        <Text style={styles.subtitle}>Acompanhe seus planos e registre seus check-ins.</Text>
       </View>
 
       {metrics?.latestCheckIn && (
         <View style={styles.lastCheckInCard}>
           <View style={styles.lastCheckInHeader}>
-            <Text style={styles.lastCheckInTitle}>Último Check-in</Text>
+            <Text style={styles.lastCheckInTitle}>ÚLTIMO CHECK-IN</Text>
             <Text style={styles.lastCheckInDate}>
               {new Date(metrics.latestCheckIn.date).toLocaleDateString('pt-BR', {
                 day: '2-digit',
@@ -147,10 +149,11 @@ export const PatientHomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => 
             )}
 
             {metrics.latestCheckIn.mood && (
-              <View style={styles.metricCard}>
-                <Text style={styles.metricLabel}>Humor</Text>
-                <Text style={styles.metricValue}>{metrics.latestCheckIn.mood}</Text>
-              </View>
+              <MetricBar
+                label="Humor"
+                value={typeof metrics.latestCheckIn.mood === 'string' ? parseInt(metrics.latestCheckIn.mood) || 0 : metrics.latestCheckIn.mood}
+                max={5}
+              />
             )}
           </View>
 
@@ -229,9 +232,9 @@ interface MetricBarProps {
 const MetricBar: React.FC<MetricBarProps> = ({ label, value, max }) => {
   const percentage = Math.min((value / max) * 100, 100);
   const getColor = () => {
-    if (percentage >= 70) return '#c3fe00';
-    if (percentage >= 40) return '#eab308';
-    return '#ef4444';
+    if (percentage >= 70) return colors.success;
+    if (percentage >= 40) return colors.warning;
+    return colors.error;
   };
 
   const getStatus = () => {
@@ -292,11 +295,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background,
     padding: 16,
   },
   header: {
@@ -306,20 +309,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#ffffff',
+    color: colors.textPrimary,
     marginBottom: 4,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#9ca3af',
+    fontSize: 12,
+    color: colors.textSecondary,
+    marginTop: 4,
   },
   lastCheckInCard: {
-    backgroundColor: '#1f2937',
+    backgroundColor: colors.surface,
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: colors.border,
   },
   lastCheckInHeader: {
     flexDirection: 'row',
@@ -330,14 +334,14 @@ const styles = StyleSheet.create({
   lastCheckInTitle: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#9ca3af',
+    color: colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
   lastCheckInDate: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#c3fe00',
+    color: colors.accent,
     backgroundColor: 'rgba(195, 254, 0, 0.2)',
     paddingHorizontal: 12,
     paddingVertical: 4,
@@ -352,11 +356,11 @@ const styles = StyleSheet.create({
   metricCard: {
     flex: 1,
     minWidth: '45%',
-    backgroundColor: '#111827',
+    backgroundColor: colors.surfaceMuted,
     borderRadius: 8,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: colors.borderSubtle,
   },
   metricHeader: {
     flexDirection: 'row',
@@ -366,16 +370,16 @@ const styles = StyleSheet.create({
   },
   metricLabel: {
     fontSize: 12,
-    color: '#9ca3af',
+    color: colors.textSecondary,
   },
   metricValue: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#ffffff',
+    color: colors.textPrimary,
   },
   progressBarContainer: {
     height: 8,
-    backgroundColor: '#1f2937',
+    backgroundColor: colors.surfaceElevated,
     borderRadius: 4,
     overflow: 'hidden',
     marginBottom: 8,
@@ -397,7 +401,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewAllButtonText: {
-    color: '#c3fe00',
+    color: colors.accent,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -410,23 +414,23 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
     minWidth: '45%',
-    backgroundColor: '#1f2937',
+    backgroundColor: colors.surface,
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: colors.border,
     alignItems: 'center',
   },
   statValue: {
     fontSize: 32,
     fontWeight: '600',
-    color: '#ffffff',
+    color: colors.textPrimary,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#9ca3af',
+    color: colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
@@ -435,11 +439,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   actionButton: {
-    backgroundColor: '#1f2937',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: colors.border,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -447,10 +451,10 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#ffffff',
+    color: colors.textPrimary,
   },
   logoutButton: {
-    backgroundColor: '#ef4444',
+    backgroundColor: colors.error,
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
@@ -458,7 +462,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   logoutButtonText: {
-    color: '#ffffff',
+    color: colors.textPrimary,
     fontSize: 16,
     fontWeight: '600',
   },
