@@ -12,10 +12,9 @@ import { useAuth } from '../../auth';
 import { checkinsService } from '../../checkins';
 import { trainingService } from '../../training';
 import { colors } from '../../../shared/constants/colors';
-import type { Screen } from '../../../../app/navigation/AppNavigator';
-
 interface HomeScreenProps {
-  onNavigate: (screen: Screen) => void;
+  onNavigate: (screen: string) => void;
+  onLogout?: () => void;
 }
 
 interface Metrics {
@@ -30,12 +29,12 @@ interface Metrics {
     nutritionAdherence: number | null;
     trainingAdherence: number | null;
     sleepQuality: number | null;
-    mood: string | null;
+    mood: number | null;
   } | null;
 }
 
-export const PatientHomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
-  const { user, logout } = useAuth();
+export const PatientHomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onLogout }) => {
+  const { user } = useAuth();
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -78,7 +77,9 @@ export const PatientHomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => 
   };
 
   const handleLogout = async () => {
-    await logout();
+    if (onLogout) {
+      onLogout();
+    }
   };
 
   if (isLoading) {
@@ -148,10 +149,10 @@ export const PatientHomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => 
               />
             )}
 
-            {metrics.latestCheckIn.mood && (
+            {metrics.latestCheckIn.mood !== null && (
               <MetricBar
                 label="Humor"
-                value={typeof metrics.latestCheckIn.mood === 'string' ? parseInt(metrics.latestCheckIn.mood) || 0 : metrics.latestCheckIn.mood}
+                value={metrics.latestCheckIn.mood}
                 max={5}
               />
             )}
